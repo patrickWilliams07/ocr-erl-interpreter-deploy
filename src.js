@@ -1700,7 +1700,7 @@ class Abort extends Error{
 
 class Lexer {
     static DIGITS = [..."0123456789"]
-    static LETTERS = [..."qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"]
+    static LETTERS = [..."qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM_"]
 
     constructor(program){
         this.allPlaintext = program
