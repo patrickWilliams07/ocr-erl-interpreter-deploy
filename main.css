@@ -1,6 +1,8 @@
 body {
     background-color: #0F0F0F;
     font-family: monospace;
+    margin-left: 140px;
+    margin-right: 140px;
 }
 
 #frame {
@@ -10,8 +12,6 @@ body {
     height: 98vh;
     grid-gap: 0.3vw;
     width: auto;
-    margin-left: 125px;
-    margin-right: 125px;
 }
 
 #title {
