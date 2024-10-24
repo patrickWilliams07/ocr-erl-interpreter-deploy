@@ -1,5 +1,4 @@
-# ocr-erl-interpreter
-OCR Computer Science A-Level NEA: ERL Interpreter
+# ocr-erl-interpreter-deploy
 
-This repository holds the progress and source code of Patrick Williams's OCR Computer Science NEA.
-This helps prove authenticity as the progress over time can be seen.
+This is a clone of the original unmodified repository to try and host it on a website afterwards
+The original is at https://github.com/patrickWilliams07/ocr-erl-interpreter

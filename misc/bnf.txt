@@ -1,1 +1,0 @@
-<factor> ::= ( Plus | Minus ) <factor> | Integer | Float | LeftBracket <expression> RightBracket

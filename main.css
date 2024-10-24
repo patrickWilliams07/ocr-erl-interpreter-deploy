@@ -9,10 +9,13 @@ body {
     grid-template-rows: repeat(20, 1fr);
     height: 98vh;
     grid-gap: 0.3vw;
+    width: auto;
+    margin-left: 125px;
+    margin-right: 125px;
 }
 
 #title {
-    grid-area: 1 / 1 / 1 / 31;
+    grid-area: 1 / 2 / 1 / 31;
     color: whitesmoke;
     font-size: 40px;
     text-align: center;
@@ -142,7 +145,7 @@ button:hover:not(.active) {
 }
 
 #fileName {
-    grid-area: 3 / 18 / 4 / 22;
+    grid-area: 3 / 18 / 4 / 24;
     color: white;
     background-color: #23481c;
     border: none;
@@ -172,7 +175,7 @@ button:hover:not(.active) {
 #fileDropdown {
     position: relative;
     display: inline-block;
-    grid-area: 3 / 22 / 4 / 23;
+    grid-area: 3 / 24 / 4 / 25;
 }
 
 #dropdownContents {
