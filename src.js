@@ -16,7 +16,9 @@
 //
 //      main repository: https://github.com/patrickWilliams07/ocr-erl-interpreter
 //      nea repository:  https://github.com/patrickWilliams07/ocr-erl-nea
-//      website URL:     tbd.
+//      website URL:     gcsecoding.com
+//
+//      Please don't steal my code thanks
 
 ////////////////
 // SYMBOL TABLE
@@ -1371,10 +1373,12 @@ class FileStorage {
     addNew(fileName) {
         let file = this.get(fileName)
         if (file == null){ // if it doesnt exist, creates
-            $(`<div id="${(fileName)}">📎 ${fileName}</div>`).insertBefore( "#add" )
-            this.files.push(new FileItem(fileName))
-        }
-        else { // otherwise it will reset the current file
+            if (fileName != "Practice Question") {
+                $(`<div id="${(fileName)}">📎 ${fileName}</div>`).insertBefore( "#add" )
+            }
+            file = new FileItem(fileName)
+            this.files.push(file)
+        } else {
             file.reset()
         }
     }
@@ -3190,6 +3194,9 @@ To delete the file, click the bin`)
             $("#fileName").html(fileName)
             $('.fileOption').show()
         } // final updates
+        if (fileName == "Practice Question") {
+            $('.fileOption').hide()
+        }
         currentFile = fileName
         $("#output").focus()
     }
@@ -3239,6 +3246,21 @@ To delete the file, click the bin`)
         Evaluator.files.delete(fileToDelete)
         $($('#' + fileToDelete.replace('.', "\\."))[0]).remove()
     })
+
+    // POST NEA ADDITIONS
+    $("#randomCode").click( () => {
+        inputArea.setValue(exampleBank[Math.floor(Math.random()*exampleBank.length)])
+    })
+
+    $("#randomQuestion").click( async () => {
+        if (Evaluator.files.get("Practice Question") == null){ // if it doesnt exist, creates
+            $(`<div id="${("Practice Question")}">📚 ${"Practice Question"}</div>`).insertAfter( "#console" )
+            Evaluator.files.addNew("Practice Question")
+        }
+        Evaluator.files.get("Practice Question").rewrite(questionBank[Math.floor(Math.random()*questionBank.length)])
+        loadOutput("Practice Question")
+        $("#output").val(Evaluator.files.get("Practice Question").contents)
+    })
 })
 
 ////////////////
@@ -3265,3 +3287,31 @@ function validateFileName(name){
     }
     return ["txt", "csv"].includes(name[name.length - 1])
 }
+
+let exampleBank = [
+    '// fibonacci\nfunction fib(n)\n	if n <= 2 then\n        return 1\n  endif\n	return fib(n - 1) + fib(n - 2)\nendfunction\n\nfor i = 1 to 10\n	print(i)\nnext i',
+    '// binary conveter\nfunction stringToAscii(string)\n    array values[string.length]\n    for i = 0 to string.length -1\n        values[i] = ASC(string.substring(i, 1))\n    next i\n    return values\nendfunction\n\nfunction integerToBinary(number)\n    binary = ""\n    for i = 7 to 0 step -1\n        if number >= 2^i then\n            number = number - 2^i\n            binary = binary + "1"\n        else\n            binary = binary + "0"\n        endif\n    next i\n    return binary\nendfunction\n\nprocedure stringToBinary(string)\n    output = ""\n    values = stringToAscii(string)\n    if values.length == 1 then\n        print(integerToBinary(values[0]))\n    else\n        for i = 0 to values.length - 2\n            output = output + integerToBinary(values[i]) + " "\n        next i\n        output = output + integerToBinary(values[values.length - 1])\n        print(output)\n    endif\nendprocedure\n\nprint("Enter nothing at any point to stop")\nstring = input("==> ")\nwhile string != ""\n    stringToBinary(string)\n    string = input("==> ")\nendwhile',
+    '// very simple\nprint("Hello World!")',
+    '// dice roller\nfunction diceRoll()\n	return random(1, 6)\nendfunction\nprint("Enter END to stop rolling the dice")\n\nwhile input("==> ") != "END"\n	print("You rolled a", diceRoll())\nendwhile',
+    '// file reader\n// press on the folder over the editor to make a file\n// change this code to read it !\nfile = open("newFile.txt")\nwhile NOT file.endOfFile()\n	print("==> ", file.readLine())\nendwhile',
+    '// check out the Exam Code Syntax Tutorial for lots of examples'
+]
+
+let questionBank = [
+    '2023 Paper 2 Question 5c\n\nWrite an algorithm to play this game. The rules are repeated from the start of the question here:\n• the player is asked 3 addition questions\n• each question asks the player to add together two random whole numbers between 1 and 10 inclusive\n• if the player gets the correct answer, 1 is added to their score\n• at the end of the game their score is displayed.',
+    '2023 Paper 2 Question 6b\n\nThe alarm has an algorithm that decides whether to sound the alarm by checking the data that is stored in the following three variables.\n• SystemArmed\n• DoorSensorActive\n• WindowSensorActive\n The alarm will only sound when the alarm has been activated and one or both of the door and window sensors are activated. When the system needs to sound the alarm it prints out "Sound Alarm"\n Write a program that checks the data in the variables and displays the warning when appropriate.',
+    '2023 Paper 2 Question 6e\n\nA program written in a high-level language is used to access the data from the database.\n This program has a procedure, SaveLogs(), that stores the data to an external text file.\n The procedure SaveLogs():\n• takes the string of data to be stored to the text file as a parameter\n• takes the filename of the text file as a parameter\n• stores the string of data to the text file.\n Write the procedure SaveLogs()',
+    '2022 Paper 2 Question 4c\n\nJack decides to improve his program. He wants to be able to input how many numbers to add together each time the algorithm runs, and also wants it to calculate and display the average of these numbers.\n Write an algorithm to:\n• ask the user to input the quantity of numbers they want to enter and read this value as input\n• repeatedly take a number as input, until the quantity of numbers the user input has been entered\n• calculate and output the total of these numbers\n• calculate and output the average of these numbers.',
+    '2022 Paper 2 Question 5bi\n\nWhen a new booking is recorded, the details are entered into a program to validate the values. The following criteria are checked:\n• firstName and surname are not empty\n• room is either “basic” or “premium”\n• nights is between 1 and 5 (inclusive).\n If any invalid data is found “NOT ALLOWED” is displayed.\n If all data is valid “ALLOWED” is displayed.\n     Complete the following program to validate the inputs.\n firstName = input("Enter a first name")\n surname = input("Enter a surname")\n room = input("Enter basic or premium")\n nights = input("Enter between 1 and 5 nights")\n stayComplete = False',
+    '2022 Paper 2 Question 5c i and ii\n\nA Basic room costs £60 each night. A Premium room costs £80 each night.\nCreate a function, newPrice(), that takes the number of nights and the type of room as parameters, calculates and returns the price to pay.\nAND\nWrite program code, that uses newPrice(), to output the price of staying in a Premium room for 5 nights.',
+    '2022 Paper 2 Question 5e\n\nThe hotel car park charges £4 per hour. If the car is electric, this price is halved to £2 per hour.\n Write an algorithm to:\n• take as input the number of hours the user has parked and whether their car is electric or not\n• calculate and output the total price\n• repeat continually until the user enters 0 hours.',
+    '2021 Paper 2 Question 3a\n\nTaylor is writing an algorithm to record the results of an experiment.\nTaylor needs to be able to enter a numeric value which is added to a total which initially starts at 0.\nEvery time she enters a value, the total is output.\nThe algorithm repeats until the total is over 100.\nWrite an algorithm to implement Taylor’s requirements.',
+    '2021 Paper 2 Question 3cii\n\nWrite a pseudocode algorithm that uses iteration to allow Taylor to:\n• enter 10 values\n• count how many values are over 50\n• output the count of values over 50 after all 10 values are entered',
+    '2020 Paper 2 Question 3f\n\nThe vending machine can be in one of three states: on, off or suspended. A user can change the state of the vending machine by using the following algorithm.\n newstate = input("Enter the new state : ")\nswitch newstate:\n    case "on":\n        statevalue = 1\n    case "off":\n       statevalue = 2\n    case "suspended":\n     statevalue = 3\n    default:\n      print("Invalid state")\nendswitch\n Rewrite the algorithm to perform the same actions using IF statements in place of the switch\nstatement.',
+    '2020 Paper 2 Question 6c\n\nA school uses the array to call an attendance register every morning.\n Write an algorithm using iteration to:\n• display the name of each student one at a time from studentnames\n• take as input whether that student is present or absent\n• display the total number of present students and number of absent students in a suitable message, after all student names have been displayed.\narray studentnames = ["Rob", "Anna", "Huw", "Emma", "Patrice", "Iqbal"]',
+    '2019 Paper 2 Question 6ai\n\nOCR Land is a theme park aimed at children and adults. Entrance tickets are sold online. An adult ticket to OCR Land costs £19.99, with a child ticket costing £8.99. A booking fee of £2.50 is added to all orders.\nA function, ticketprice(), takes the number of adult tickets and the number of child tickets as parameters. It calculates and returns the total price to be paid.\nUse pseudocode to create an algorithm for the function ticketprice().',
+    '2019 Paper 2 Question 6e\n\nOne ride in OCR Land has a minimum height of 140cm to ride alone or 120cm to ride with an adult.\n Create an algorithm that:\n• asks the user to input the height of the rider, in centimetres\n• if needed, asks if they are riding with an adult\n• outputs whether or not they are allowed to ride\n• repeats this process until 8 people have been allowed to ride.',
+    '2018 Paper 2 Question 8\n\nOCR town are holding an election with three candidates (A, B and C). An electronic voting booth will be used to allow people to vote.\nWrite an algorithm that:\n• Allows voters to enter either A, B or C.\n• Keeps track of how many times each candidate has been voted for.\n• As soon as one person has finished voting, allows the next person to vote.\n• At any point allows the official to type in “END”, which will print out the number of votes for each candidate and the total number of votes overall.',
+    'Sample Paper 2 Question 2b\n\nA second program needs to perform the following tasks:\n• Input a number from the user\n• Double the number input and print the result\n• Repeat bullets 1 and 2 until the user enters a number less than 0.\nWrite an algorithm for this program',
+    'Sample Paper 2 Question 4bii\n\nA program creates usernames for a school.\nThe program design is updated to create usernames as follows:\n• If the person is a teacher, their username is the last 3 letters of their surname and then the first 2 letters of their first name.\n• If the person is a student, their username is the first 3 letters of their first name and then the first 2 letters of their surname.\nWrite an algorithm for the updated program design'
+]
