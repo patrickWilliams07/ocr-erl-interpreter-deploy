@@ -1,8 +1,6 @@
 body {
     background-color: #0F0F0F;
     font-family: monospace;
-    margin-left: 140px;
-    margin-right: 140px;
 }
 
 #frame {
@@ -11,7 +9,6 @@ body {
     grid-template-rows: repeat(20, 1fr);
     height: 98vh;
     grid-gap: 0.3vw;
-    width: auto;
 }
 
 #title {
